@@ -1,0 +1,8 @@
+Name;Continent;Capital;Area;Population 
+Russia;Eurasia;Moscow;17098246;145975300 
+USA;North America;Washington;9826675;332278200 
+France;Eurasia;Paris;640679;67413000 
+Nigeria;West Africa;Lagos;923768;209603600 
+Poland;Eurasia;Warsaw;312696;38244000 
+Czech Republic;Eurasia;Prague;78866;10701777 
+Australia;Australia;Canberra;7692024;25726900

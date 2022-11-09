@@ -1,0 +1,17 @@
+class;name;molecularweight
+metals;Fe;55.85
+metals;Ti;47.9
+metals;Cr;52.01
+metals;Ni;58.71
+non-metals;Li;5.94
+non-metals;Na;22.991
+non-metals;Cs;132.91
+non-metals;H;1.008
+metals;Fe;55.85
+metals;Ti;47.9
+metals;Cr;52.01
+metals;Ni;58.71
+non-metals;Li;5.94
+non-metals;Na;22.991
+non-metals;Cs;132.91
+non-metals;H;1.008
