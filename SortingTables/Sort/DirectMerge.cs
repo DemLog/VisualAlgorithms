@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace SortingTables
+namespace SortingTables.Sort
 {
-    public class SortingAlgorithm
+    public class DirectMerge
     {
         private const string PATH_LEFT = @"../../../left.txt";
         private const string PATH_RIGHT = @"../../../right.txt";
@@ -17,7 +15,7 @@ namespace SortingTables
         public List<int> RightInd = new List<int>();
         public DrawMove DrawMove;
         public StackPanel Logs;
-        public SortingAlgorithm(StackPanel content, StackPanel logs)
+        public DirectMerge(StackPanel content, StackPanel logs)
         {
             DrawMove = new DrawMove(content);
             Logs = logs;
@@ -78,55 +76,55 @@ namespace SortingTables
             writer.WriteLine(word);
             writer.Close();
         }
+        
         private void Sort1(Table[] array, int k)
         {
+            using (StreamReader readerLeft = new StreamReader(PATH_LEFT))
+            using (StreamReader readerRight = new StreamReader(PATH_RIGHT))
+            {
+                string lineLeft = readerLeft.ReadLine(), lineRight = readerRight.ReadLine();
+                
+                while (lineLeft != null && lineRight != null)
+                {
+                    var leftT = Table.GetTable(lineLeft.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+                    var rightT = Table.GetTable(lineRight.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+        
+                    if (leftT < rightT)
+                    {
+                        Logs.Children.Add(GetLog($"{leftT} < {rightT}"));
+                        Logs.Children.Add(GetLog($"{k} позиция -> {leftT.ToString()}"));
+                        array[k] = leftT;
+                        lineLeft = readerLeft.ReadLine();
+                    }
+                    else
+                    {
+                        Logs.Children.Add(GetLog($"{leftT} > {rightT}"));
+                        Logs.Children.Add(GetLog($"{k} позиция -> {rightT.ToString()}"));
+                        array[k] = rightT;
+                        lineRight = readerRight.ReadLine();
+                    }
+                    k++;
+                }
+        
+                while (lineLeft != null || lineRight != null)
+                {
+                    if (lineLeft == null)
+                    {
+                        Logs.Children.Add(GetLog($"{k} позиция -> {Table.GetTable(lineRight.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))}"));
+                        array[k] = Table.GetTable(lineRight.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+                        lineRight = readerRight.ReadLine();
+                    }
+                    else
+                    {
+                        Logs.Children.Add(GetLog($"{k} позиция -> {Table.GetTable(lineLeft.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))}"));
+                        array[k] = Table.GetTable(lineLeft.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+                        lineLeft = readerLeft.ReadLine();
+                    }
+                    k++;
+                }
+            }
             
-            var left = File.ReadAllLines(PATH_LEFT);
-            var right = File.ReadAllLines(PATH_RIGHT);
-            int l = 0, r = 0;
-        
-        
-            while (l < left.Length && r < right.Length)
-            {
-                var leftT = Table.GetTable(left[l].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
-                var rightT = Table.GetTable(right[r].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
-        
-                if (leftT < rightT)
-                {
-                    Logs.Children.Add(GetLog($"{leftT} < {rightT}"));
-                    Logs.Children.Add(GetLog($"{k} позиция -> {leftT.ToString()}"));
-                    array[k] = leftT;
-                    l++;
-                }
-                else
-                {
-                    Logs.Children.Add(GetLog($"{leftT} > {rightT}"));
-                    Logs.Children.Add(GetLog($"{k} позиция -> {right}"));
-                    array[k] = rightT;
-                    r++;
-                }
-        
-                k++;
-            }
-        
-            while (l != left.Length || r != right.Length)
-            {
-                if (l == left.Length)
-                {
-                    Logs.Children.Add(GetLog($"{k} позиция -> {Table.GetTable(right[r].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))}"));
-                    array[k] = Table.GetTable(right[r].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
-                    r++;
-                }
-                else
-                {
-                    Logs.Children.Add(GetLog($"{k} позиция -> {Table.GetTable(left[l].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))}"));
-                    array[k] = Table.GetTable(left[l].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
-                    l++;
-                }
-        
-                k++;
-            }
-        
+            
             File.WriteAllText(PATH_LEFT, "");
             File.WriteAllText(PATH_RIGHT, "");
         }
@@ -135,6 +133,5 @@ namespace SortingTables
             {
                 Text = text,
             };
-
     }
 }

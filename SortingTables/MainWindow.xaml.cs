@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.IO;
+using System.Threading.Tasks;
+using SortingTables.Sort;
 
 namespace SortingTables
 {
@@ -19,6 +21,7 @@ namespace SortingTables
             DrawMove.ping = ping;
         }
         public List<Table> Rows;
+        public Func<Table[], int, Task> Algorithm;
         private void tablesgr_Loaded(object sender, RoutedEventArgs e)
         {
            
@@ -26,9 +29,31 @@ namespace SortingTables
 
         private void SortClock(object sender, RoutedEventArgs e)
         {
-            var sa = new SortingAlgorithm(content, logs);
-            sa.MergeSort(Rows.ToArray());
+            // var sa = new DirectMerge(content, logs);
+            // sa.MergeSort(Rows.ToArray());
+            Algorithm(Rows.ToArray(), 1);
             GetTable();
+        }
+        
+        private void ComboBox_Selected(object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            int selectedItem = comboBox.SelectedIndex;
+            switch (selectedItem)
+            {
+                case 0:
+                    var sa = new DirectMerge(content, logs);
+                    Algorithm = sa.MergeSort;
+                    break;
+                case 1:
+                    var sb = new NaturalMerge(content, logs);
+                    Algorithm = sb.MergeSort;
+                    break;
+                case 2:
+                    var sc = new NaturalMerge(content, logs);
+                    Algorithm = sc.MergeSort;
+                    break;
+            }
         }
         
         public static bool checkBox = false;

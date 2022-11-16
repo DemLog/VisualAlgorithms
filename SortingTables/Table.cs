@@ -39,6 +39,27 @@ namespace SortingTables
         {
             return Sorting(left, right);
         }
+
+        public static bool operator ==(Table left, Table right)
+        {
+            return !Sorting(left, right) && !Sorting(right, left);
+        }
+
+        public static bool operator !=(Table left, Table right)
+        {
+            return Sorting(left, right) && Sorting(right, left);
+        }
+
+        public static bool operator >=(Table left, Table right)
+        {
+            return left > right || left == right;
+        }
+
+        public static bool operator <=(Table left, Table right)
+        {
+            return left < right || left == right;
+        }
+
         private static bool Sorting(Table left, Table right)
         {
             foreach(var el in MainWindow.SortColumns)

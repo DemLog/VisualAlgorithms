@@ -14,6 +14,11 @@
             <DockPanel>
                 <Button Click="SelectFileClick" Padding="5px 0">Выбрать файл...</Button>
                 <CheckBox x:Name="checkBox1" Checked="checkBox_Checked" Unchecked="checkBox_Unchecked" IsChecked="False" Height="20" Content="Текст. послед." />
+                <ComboBox Name="sortList" Margin="0px 0px 50px 0px" Width="100px" HorizontalAlignment="Center" SelectionChanged="ComboBox_Selected">
+                    <TextBlock>DirectMerge</TextBlock>
+                    <TextBlock>NaturalMerge</TextBlock>
+                    <TextBlock>MultipathMerge</TextBlock>
+                </ComboBox>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <TextBlock Margin="0px 0px 5px 0px">Ping:</TextBlock>
                     <Button Click="Minus100Click" Padding="5px 0">-100</Button>
